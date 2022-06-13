@@ -9,23 +9,18 @@ import { Button } from './Button';
 import '../styles/sidebar.scss';
 
 interface SideBarProps {
-  handleMenuClick: (id: number) => void;
+  handleClickButton: (id: number) => void;
+  selectedGenreId: number;
 }
 
-export function SideBar({ handleMenuClick }: SideBarProps) {
+export function SideBar({ handleClickButton, selectedGenreId }: SideBarProps) {
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
-  const [selectedGenreId, setSelectedGenreId] = useState(1);
 
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then((response) => {
       setGenres(response.data);
     });
   }, []);
-
-  function handleClickButton(id: number) {
-    setSelectedGenreId(id);
-    handleMenuClick(id);
-  }
 
   return (
     <nav className="sidebar">

@@ -1,14 +1,28 @@
+import { useEffect, useState } from 'react';
+
+import { GenreResponseProps } from '../interfaces/GenreResponseProps';
+
+import { api } from '../services/api';
+
 import '../styles/header.scss';
 
 interface HeaderProps {
-  genre: string;
+  selectedGenreId: number;
 }
 
-export function Header({ genre }: HeaderProps) {
+export function Header({ selectedGenreId }: HeaderProps) {
+  const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
+
+  useEffect(() => {
+    api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then((response) => {
+      setSelectedGenre(response.data);
+    });
+  }, [selectedGenreId]);
+
   return (
     <header>
       <span className="category">
-        Categoria:<span> {genre}</span>
+        Categoria:<span> {selectedGenre.title}</span>
       </span>
     </header>
   );

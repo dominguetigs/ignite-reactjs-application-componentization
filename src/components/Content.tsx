@@ -5,6 +5,7 @@ import { MovieProps } from '../interfaces/MovieProps';
 
 import { api } from '../services/api';
 
+import { Header } from './Header';
 import { MovieCard } from './MovieCard';
 
 import '../styles/content.scss';
@@ -18,7 +19,7 @@ export function Content({ selectedGenreId }: ContentProps) {
   const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
 
   useEffect(() => {
-    api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then((response) => {
+    api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then((response: any) => {
       setMovies(response.data);
     });
 
@@ -29,11 +30,7 @@ export function Content({ selectedGenreId }: ContentProps) {
 
   return (
     <div className="container">
-      <header>
-        <span className="category">
-          Categoria:<span> {selectedGenre.title}</span>
-        </span>
-      </header>
+      <Header genre={selectedGenre.title} />
 
       <main>
         <div className="movies-list">
